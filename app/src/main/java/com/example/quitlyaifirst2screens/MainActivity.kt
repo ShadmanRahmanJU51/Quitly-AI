@@ -3,45 +3,35 @@ package com.example.quitlyaifirst2screens
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.*
+import com.example.quitlyaifirst2screens.screens.OnboardingIntroScreen
+import com.example.quitlyaifirst2screens.screens.SplashScreen
 import com.example.quitlyaifirst2screens.ui.theme.QuitlyAIfirst2ScreensTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             QuitlyAIfirst2ScreensTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                QuitlyApp()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun QuitlyApp() {
+    // Simple 2-screen state switch. Will be replaced with proper
+    // navigation once more screens are added.
+    var currentScreen by remember { mutableStateOf("splash") }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    QuitlyAIfirst2ScreensTheme {
-        Greeting("Android")
+    when (currentScreen) {
+        "splash" -> SplashScreen(
+            onBeginQuit = { currentScreen = "onboardingIntro" },
+            onSignIn = { /* not yet designed */ }
+        )
+        "onboardingIntro" -> OnboardingIntroScreen(
+            onContinue = { /* Screen 3 not yet built */ }
+        )
     }
 }
