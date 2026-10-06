@@ -1,5 +1,8 @@
 package com.example.quitlyaifirst2screens.viewmodel
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -7,6 +10,9 @@ import androidx.lifecycle.ViewModel
 import com.example.quitlyaifirst2screens.data.*
 
 class QuitlyViewModel : ViewModel() {
+
+    private val aiService = AiService()
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     // ── Onboarding state ─────────────────────────────────────────────
     var reasons by mutableStateOf(SampleData.reasons)
@@ -82,6 +88,31 @@ class QuitlyViewModel : ViewModel() {
     // ── Chat ─────────────────────────────────────────────────────────
     fun addChatMessage(message: ChatMessage) {
         chatMessages = chatMessages + message
+    }
+
+    fun sendChatMessage(text: String) {
+        val userMsg = ChatMessage(isUser = true, text = text)
+        chatMessages = chatMessages + userMsg
+        isAiLoading = true
+        aiError = null
+
+        scope.launch {
+            try {
+                val reply = aiService.getCoachReply(
+                    history = chatMessages.dropLast(1),
+                    userMessage = text
+                )
+                chatMessages = chatMessages + ChatMessage(isUser = false, text = reply)
+            } catch (e: Exception) {
+                aiError = e.message
+                chatMessages = chatMessages + ChatMessage(
+                    isUser = false,
+                    text = AiService.FALLBACK_REPLY
+                )
+            } finally {
+                isAiLoading = false
+            }
+        }
     }
 
     fun updateAiLoading(loading: Boolean) { isAiLoading = loading }
