@@ -1,5 +1,6 @@
 package com.example.quitlyaifirst2screens
 
+import com.example.quitlyaifirst2screens.screens.CoachChatScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -194,9 +195,9 @@ fun QuitlyApp() {
 
         // ---------- Coaching ----------
         composable(Routes.COACH) {
-            PlaceholderScreen(
-                title = "AI Coach",
-                onBack = { navController.popBackStack() }
+            CoachChatScreen(
+                onBack = { navController.popBackStack() },
+                vm = vm
             )
         }
 
