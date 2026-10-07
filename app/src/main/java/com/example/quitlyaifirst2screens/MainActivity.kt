@@ -1,6 +1,6 @@
 package com.example.quitlyaifirst2screens
 
-
+import com.example.quitlyaifirst2screens.screens.ProgressMilestonesScreen
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.example.quitlyaifirst2screens.data.LogOutcome
@@ -197,10 +197,7 @@ fun QuitlyApp() {
         }
 
         composable(Routes.PROGRESS) {
-            PlaceholderScreen(
-                title = "Progress & Milestones",
-                onBack = { navController.popBackStack() }
-            )
+            ProgressMilestonesScreen(onTabSelected = onTabSelected)
         }
 
         composable(Routes.SETBACK) {

@@ -21,6 +21,8 @@ class QuitlyViewModel : ViewModel() {
     var triggers by mutableStateOf(SampleData.triggers)
         private set
 
+    var milestones by mutableStateOf(SampleData.milestones); private set
+
     var cigsPerDay by mutableStateOf(15)
         private set
 
