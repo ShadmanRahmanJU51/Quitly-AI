@@ -1,5 +1,7 @@
 package com.example.quitlyaifirst2screens
 
+
+import com.example.quitlyaifirst2screens.screens.ProfileSettingsScreen
 import com.example.quitlyaifirst2screens.screens.AdaptiveNudgesScreen
 import com.example.quitlyaifirst2screens.screens.CommunityScreen
 import com.example.quitlyaifirst2screens.screens.SetbackCheckInScreen
@@ -252,9 +254,11 @@ fun QuitlyApp() {
         }
 
         composable(Routes.PROFILE) {
-            PlaceholderScreen(
-                title = "Profile & Settings",
-                onBack = { navController.popBackStack() }
+            ProfileSettingsScreen(
+                onOpenNudges = { navController.navigate(Routes.NUDGES) },
+                onOpenSurvey = { navController.navigate(Routes.SURVEY) },
+                onTabSelected = onTabSelected,
+                vm = vm
             )
         }
     }
