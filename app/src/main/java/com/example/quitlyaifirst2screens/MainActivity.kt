@@ -1,5 +1,6 @@
 package com.example.quitlyaifirst2screens
 
+import com.example.quitlyaifirst2screens.screens.SetbackCheckInScreen
 import com.example.quitlyaifirst2screens.screens.MotivationalFeedScreen
 import com.example.quitlyaifirst2screens.screens.CoachChatScreen
 import android.os.Bundle
@@ -220,9 +221,21 @@ fun QuitlyApp() {
         }
 
         composable(Routes.SETBACK) {
-            PlaceholderScreen(
-                title = "Setback Check-in",
-                onBack = { navController.popBackStack() }
+            SetbackCheckInScreen(
+                onClose = {
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.HOME) { inclusive = false }
+                        launchSingleTop = true
+                    }
+                },
+                onKeepStreak = {
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.HOME) { inclusive = false }
+                        launchSingleTop = true
+                    }
+                },
+                onTalkToCoach = { navController.navigate(Routes.COACH) },
+                vm = vm
             )
         }
 
