@@ -1,5 +1,6 @@
 package com.example.quitlyaifirst2screens
 
+import com.example.quitlyaifirst2screens.screens.CommunityScreen
 import com.example.quitlyaifirst2screens.screens.SetbackCheckInScreen
 import com.example.quitlyaifirst2screens.screens.MotivationalFeedScreen
 import com.example.quitlyaifirst2screens.screens.CoachChatScreen
@@ -240,10 +241,7 @@ fun QuitlyApp() {
         }
 
         composable(Routes.COMMUNITY) {
-            PlaceholderScreen(
-                title = "Community",
-                onBack = { navController.popBackStack() }
-            )
+            CommunityScreen(onBack = { navController.popBackStack() })
         }
 
         // ---------- Settings ----------
