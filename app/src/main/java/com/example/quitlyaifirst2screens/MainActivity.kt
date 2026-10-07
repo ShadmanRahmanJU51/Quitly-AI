@@ -1,5 +1,6 @@
 package com.example.quitlyaifirst2screens
 
+import com.example.quitlyaifirst2screens.screens.AdaptiveNudgesScreen
 import com.example.quitlyaifirst2screens.screens.CommunityScreen
 import com.example.quitlyaifirst2screens.screens.SetbackCheckInScreen
 import com.example.quitlyaifirst2screens.screens.MotivationalFeedScreen
@@ -245,11 +246,9 @@ fun QuitlyApp() {
         }
 
         // ---------- Settings ----------
+
         composable(Routes.NUDGES) {
-            PlaceholderScreen(
-                title = "Adaptive Nudges",
-                onBack = { navController.popBackStack() }
-            )
+            AdaptiveNudgesScreen(onBack = { navController.popBackStack() })
         }
 
         composable(Routes.PROFILE) {
