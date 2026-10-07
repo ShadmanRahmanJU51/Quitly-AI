@@ -1,5 +1,6 @@
 package com.example.quitlyaifirst2screens
 
+import com.example.quitlyaifirst2screens.screens.HabitAssessmentScreen
 import com.example.quitlyaifirst2screens.screens.PreferenceSurveyScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -59,9 +60,9 @@ fun QuitlyApp() {
         }
 
         composable(Routes.ASSESSMENT) {
-            PlaceholderScreen(
-                title = "Habit Assessment",
-                onBack = { navController.popBackStack() }
+            HabitAssessmentScreen(
+                onBack = { navController.popBackStack() },
+                onContinue = { navController.navigate(Routes.RESULTS) }
             )
         }
 
