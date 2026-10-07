@@ -1,6 +1,6 @@
 package com.example.quitlyaifirst2screens
 
-
+import com.example.quitlyaifirst2screens.screens.NameEntryScreen
 import com.example.quitlyaifirst2screens.screens.ProfileSettingsScreen
 import com.example.quitlyaifirst2screens.screens.AdaptiveNudgesScreen
 import com.example.quitlyaifirst2screens.screens.CommunityScreen
@@ -91,7 +91,15 @@ fun QuitlyApp() {
 
         composable(Routes.ONBOARDING_INTRO) {
             OnboardingIntroScreen(
-                onContinue = { navController.navigate(Routes.SURVEY) }
+                onContinue = { navController.navigate(Routes.NAME_ENTRY) }
+            )
+        }
+
+        composable(Routes.NAME_ENTRY) {
+            NameEntryScreen(
+                onBack = { navController.popBackStack() },
+                onContinue = { navController.navigate(Routes.SURVEY) },
+                vm = vm
             )
         }
 

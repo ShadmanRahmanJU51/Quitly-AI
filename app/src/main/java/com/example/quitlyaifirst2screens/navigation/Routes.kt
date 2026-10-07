@@ -3,6 +3,7 @@ package com.example.quitlyaifirst2screens.navigation
 /** Central route constants. Add new routes here, never inline. */
 object Routes {
     // Onboarding
+    const val NAME_ENTRY = "name_entry"
     const val SPLASH = "splash"
     const val ONBOARDING_INTRO = "onboarding_intro"
     const val SURVEY = "survey"
