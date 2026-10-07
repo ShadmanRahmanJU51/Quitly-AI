@@ -1,5 +1,7 @@
 package com.example.quitlyaifirst2screens
 
+import com.example.quitlyaifirst2screens.components.TabItem
+import com.example.quitlyaifirst2screens.screens.HomeDashboardScreen
 import com.example.quitlyaifirst2screens.screens.PersonalizedResultsScreen
 import com.example.quitlyaifirst2screens.screens.ResultVariant
 import com.example.quitlyaifirst2screens.screens.HabitAssessmentScreen
@@ -31,6 +33,26 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun QuitlyApp() {
     val navController = rememberNavController()
+    val onTabSelected: (TabItem) -> Unit = { tab ->
+        when (tab) {
+            TabItem.HOME -> navController.navigate(Routes.HOME) {
+                launchSingleTop = true
+                popUpTo(Routes.HOME) { inclusive = false }
+            }
+            TabItem.PROGRESS -> navController.navigate(Routes.PROGRESS) {
+                launchSingleTop = true
+            }
+            TabItem.LOG -> navController.navigate(Routes.HABIT_LOG) {
+                launchSingleTop = true
+            }
+            TabItem.COACH -> navController.navigate(Routes.COACH) {
+                launchSingleTop = true
+            }
+            TabItem.YOU -> navController.navigate(Routes.PROFILE) {
+                launchSingleTop = true
+            }
+        }
+    }
 
     NavHost(
         navController = navController,
@@ -91,10 +113,13 @@ fun QuitlyApp() {
         }
 
         // ---------- Everyday ----------
+
         composable(Routes.HOME) {
-            PlaceholderScreen(
-                title = "Home",
-                onBack = { navController.popBackStack() }
+            HomeDashboardScreen(
+                onCraving = { navController.navigate(Routes.SOS) },
+                onLog = { navController.navigate(Routes.HABIT_LOG) },
+                onCoach = { navController.navigate(Routes.COACH) },
+                onTabSelected = onTabSelected
             )
         }
 
