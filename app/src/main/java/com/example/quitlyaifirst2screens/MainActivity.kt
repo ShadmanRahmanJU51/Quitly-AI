@@ -1,29 +1,32 @@
 package com.example.quitlyaifirst2screens
 
-import com.example.quitlyaifirst2screens.screens.ProgressMilestonesScreen
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
-import com.example.quitlyaifirst2screens.data.LogOutcome
-import com.example.quitlyaifirst2screens.screens.HabitLogScreen
-import com.example.quitlyaifirst2screens.screens.SosScreen
-import com.example.quitlyaifirst2screens.components.TabItem
-import com.example.quitlyaifirst2screens.screens.HomeDashboardScreen
-import com.example.quitlyaifirst2screens.screens.PersonalizedResultsScreen
-import com.example.quitlyaifirst2screens.screens.ResultVariant
-import com.example.quitlyaifirst2screens.screens.HabitAssessmentScreen
-import com.example.quitlyaifirst2screens.screens.PreferenceSurveyScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.quitlyaifirst2screens.components.TabItem
+import com.example.quitlyaifirst2screens.data.LogOutcome
 import com.example.quitlyaifirst2screens.navigation.Routes
+import com.example.quitlyaifirst2screens.screens.HabitAssessmentScreen
+import com.example.quitlyaifirst2screens.screens.HabitLogScreen
+import com.example.quitlyaifirst2screens.screens.HistoryAnalyticsScreen
+import com.example.quitlyaifirst2screens.screens.HomeDashboardScreen
 import com.example.quitlyaifirst2screens.screens.OnboardingIntroScreen
+import com.example.quitlyaifirst2screens.screens.PersonalizedResultsScreen
 import com.example.quitlyaifirst2screens.screens.PlaceholderScreen
+import com.example.quitlyaifirst2screens.screens.PreferenceSurveyScreen
+import com.example.quitlyaifirst2screens.screens.ProgressMilestonesScreen
+import com.example.quitlyaifirst2screens.screens.ResultVariant
+import com.example.quitlyaifirst2screens.screens.SosScreen
 import com.example.quitlyaifirst2screens.screens.SplashScreen
 import com.example.quitlyaifirst2screens.ui.theme.QuitlyAIfirst2ScreensTheme
+import com.example.quitlyaifirst2screens.viewmodel.QuitlyViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +42,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun QuitlyApp() {
     val navController = rememberNavController()
+
     val onTabSelected: (TabItem) -> Unit = { tab ->
         when (tab) {
             TabItem.HOME -> navController.navigate(Routes.HOME) {
@@ -59,6 +63,8 @@ fun QuitlyApp() {
             }
         }
     }
+
+    val vm: QuitlyViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -85,14 +91,16 @@ fun QuitlyApp() {
         composable(Routes.SURVEY) {
             PreferenceSurveyScreen(
                 onBack = { navController.popBackStack() },
-                onContinue = { navController.navigate(Routes.ASSESSMENT) }
+                onContinue = { navController.navigate(Routes.ASSESSMENT) },
+                vm = vm
             )
         }
 
         composable(Routes.ASSESSMENT) {
             HabitAssessmentScreen(
                 onBack = { navController.popBackStack() },
-                onContinue = { navController.navigate(Routes.RESULTS) }
+                onContinue = { navController.navigate(Routes.RESULTS) },
+                vm = vm
             )
         }
 
@@ -125,7 +133,8 @@ fun QuitlyApp() {
                 onCraving = { navController.navigate(Routes.SOS) },
                 onLog = { navController.navigate(Routes.HABIT_LOG) },
                 onCoach = { navController.navigate(Routes.COACH) },
-                onTabSelected = onTabSelected
+                onTabSelected = onTabSelected,
+                vm = vm
             )
         }
 
@@ -141,7 +150,8 @@ fun QuitlyApp() {
                     navController.navigate(Routes.SETBACK) {
                         popUpTo(Routes.HOME) { inclusive = false }
                     }
-                }
+                },
+                vm = vm
             )
         }
 
@@ -164,20 +174,21 @@ fun QuitlyApp() {
             HabitLogScreen(
                 onClose = { navController.popBackStack() },
                 onSaved = {
-                    // After saving, return to Home and clear the SOS/HabitLog stack above Home.
                     navController.navigate(Routes.HOME) {
                         popUpTo(Routes.HOME) { inclusive = false }
                         launchSingleTop = true
                     }
                 },
-                prefilledOutcome = prefill
+                prefilledOutcome = prefill,
+                vm = vm
             )
         }
 
         composable(Routes.HISTORY) {
-            PlaceholderScreen(
-                title = "History & Analytics",
-                onBack = { navController.popBackStack() }
+            HistoryAnalyticsScreen(
+                onOpenNudges = { navController.navigate(Routes.NUDGES) },
+                onTabSelected = onTabSelected,
+                vm = vm
             )
         }
 
@@ -197,7 +208,11 @@ fun QuitlyApp() {
         }
 
         composable(Routes.PROGRESS) {
-            ProgressMilestonesScreen(onTabSelected = onTabSelected)
+            ProgressMilestonesScreen(
+                onTabSelected = onTabSelected,
+                onOpenHistory = { navController.navigate(Routes.HISTORY) },
+                vm = vm
+            )
         }
 
         composable(Routes.SETBACK) {

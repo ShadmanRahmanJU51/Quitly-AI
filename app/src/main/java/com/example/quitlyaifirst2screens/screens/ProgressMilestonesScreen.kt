@@ -1,5 +1,7 @@
 package com.example.quitlyaifirst2screens.screens
 
+import androidx.compose.foundation.clickable
+import com.example.quitlyaifirst2screens.ui.theme.AccentDeep
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -53,6 +55,7 @@ import com.example.quitlyaifirst2screens.viewmodel.QuitlyViewModel
 @Composable
 fun ProgressMilestonesScreen(
     onTabSelected: (TabItem) -> Unit,
+    onOpenHistory: () -> Unit,
     vm: QuitlyViewModel = viewModel()
 ) {
     Column(
@@ -100,6 +103,24 @@ fun ProgressMilestonesScreen(
                         StatLine("${vm.hoursReclaimed}h", "reclaimed")
                     }
                 }
+            }
+
+            Spacer(Modifier.height(12.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(50))
+                    .background(Terracotta100)
+                    .clickable { onOpenHistory() }
+                    .padding(vertical = 12.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "View trends & history →",
+                    fontFamily = Caprasimo,
+                    fontSize = 14.sp,
+                    color = AccentDeep
+                )
             }
 
             Spacer(Modifier.height(28.dp))
