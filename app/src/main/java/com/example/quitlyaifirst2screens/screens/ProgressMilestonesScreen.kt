@@ -1,9 +1,8 @@
 package com.example.quitlyaifirst2screens.screens
 
-import androidx.compose.foundation.clickable
-import com.example.quitlyaifirst2screens.ui.theme.AccentDeep
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -25,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -36,6 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.quitlyaifirst2screens.components.QuitlyStreakRing
 import com.example.quitlyaifirst2screens.components.QuitlyTabBar
 import com.example.quitlyaifirst2screens.components.TabItem
+import com.example.quitlyaifirst2screens.ui.theme.AccentDeep
 import com.example.quitlyaifirst2screens.ui.theme.Caprasimo
 import com.example.quitlyaifirst2screens.ui.theme.Figtree
 import com.example.quitlyaifirst2screens.ui.theme.GroundCream
@@ -44,7 +42,6 @@ import com.example.quitlyaifirst2screens.ui.theme.Neutral400
 import com.example.quitlyaifirst2screens.ui.theme.Neutral500
 import com.example.quitlyaifirst2screens.ui.theme.Sage
 import com.example.quitlyaifirst2screens.ui.theme.Sage100
-import com.example.quitlyaifirst2screens.ui.theme.Sage900
 import com.example.quitlyaifirst2screens.ui.theme.SandCard
 import com.example.quitlyaifirst2screens.ui.theme.Terracotta
 import com.example.quitlyaifirst2screens.ui.theme.Terracotta100
@@ -56,6 +53,7 @@ import com.example.quitlyaifirst2screens.viewmodel.QuitlyViewModel
 fun ProgressMilestonesScreen(
     onTabSelected: (TabItem) -> Unit,
     onOpenHistory: () -> Unit,
+    onOpenFeed: () -> Unit,
     vm: QuitlyViewModel = viewModel()
 ) {
     Column(
@@ -120,6 +118,24 @@ fun ProgressMilestonesScreen(
                     fontFamily = Caprasimo,
                     fontSize = 14.sp,
                     color = AccentDeep
+                )
+            }
+
+            Spacer(Modifier.height(10.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(50))
+                    .background(Sage100)
+                    .clickable { onOpenFeed() }
+                    .padding(vertical = 12.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Read something for today →",
+                    fontFamily = Caprasimo,
+                    fontSize = 14.sp,
+                    color = Sage
                 )
             }
 
@@ -252,14 +268,12 @@ private fun MilestoneBadge(label: String, earned: Boolean) {
                         )
                     )
                 }
-                // Star / check inside
                 if (earned) {
                     val w = size.width; val h = size.height
                     val s = 2.8.dp.toPx()
                     drawLine(Terracotta, Offset(w * 0.32f, h * 0.5f), Offset(w * 0.45f, h * 0.64f), s, StrokeCap.Round)
                     drawLine(Terracotta, Offset(w * 0.45f, h * 0.64f), Offset(w * 0.7f, h * 0.34f), s, StrokeCap.Round)
                 } else {
-                    // small dot
                     drawCircle(
                         color = Neutral400,
                         radius = 4.dp.toPx(),

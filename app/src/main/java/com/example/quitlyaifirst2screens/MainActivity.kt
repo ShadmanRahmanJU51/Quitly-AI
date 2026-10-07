@@ -1,5 +1,6 @@
 package com.example.quitlyaifirst2screens
 
+import com.example.quitlyaifirst2screens.screens.MotivationalFeedScreen
 import com.example.quitlyaifirst2screens.screens.CoachChatScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -202,9 +203,10 @@ fun QuitlyApp() {
         }
 
         composable(Routes.FEED) {
-            PlaceholderScreen(
-                title = "Motivational Feed",
-                onBack = { navController.popBackStack() }
+            MotivationalFeedScreen(
+                onBack = { navController.popBackStack() },
+                onOpenCommunity = { navController.navigate(Routes.COMMUNITY) },
+                vm = vm
             )
         }
 
@@ -212,6 +214,7 @@ fun QuitlyApp() {
             ProgressMilestonesScreen(
                 onTabSelected = onTabSelected,
                 onOpenHistory = { navController.navigate(Routes.HISTORY) },
+                onOpenFeed = { navController.navigate(Routes.FEED) },
                 vm = vm
             )
         }
