@@ -26,4 +26,9 @@ object Routes {
     // Settings
     const val NUDGES = "nudges"
     const val PROFILE = "profile"
+
+    const val HABIT_LOG_ARG = "outcome"
+    /** Build a Habit Log route with an optional prefill: "resisted" | "smoked" | null. */
+    fun habitLog(prefill: String? = null): String =
+        if (prefill == null) HABIT_LOG else "$HABIT_LOG?$HABIT_LOG_ARG=$prefill"
 }

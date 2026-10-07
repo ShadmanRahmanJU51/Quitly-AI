@@ -1,5 +1,11 @@
 package com.example.quitlyaifirst2screens
 
+
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.example.quitlyaifirst2screens.data.LogOutcome
+import com.example.quitlyaifirst2screens.screens.HabitLogScreen
+import com.example.quitlyaifirst2screens.screens.SosScreen
 import com.example.quitlyaifirst2screens.components.TabItem
 import com.example.quitlyaifirst2screens.screens.HomeDashboardScreen
 import com.example.quitlyaifirst2screens.screens.PersonalizedResultsScreen
@@ -124,16 +130,47 @@ fun QuitlyApp() {
         }
 
         composable(Routes.SOS) {
-            PlaceholderScreen(
-                title = "Craving / SOS",
-                onBack = { navController.popBackStack() }
+            SosScreen(
+                onClose = { navController.popBackStack() },
+                onResisted = {
+                    navController.navigate(Routes.habitLog("resisted")) {
+                        popUpTo(Routes.HOME) { inclusive = false }
+                    }
+                },
+                onSlipped = {
+                    navController.navigate(Routes.SETBACK) {
+                        popUpTo(Routes.HOME) { inclusive = false }
+                    }
+                }
             )
         }
 
-        composable(Routes.HABIT_LOG) {
-            PlaceholderScreen(
-                title = "Habit Log",
-                onBack = { navController.popBackStack() }
+        composable(
+            route = "${Routes.HABIT_LOG}?${Routes.HABIT_LOG_ARG}={${Routes.HABIT_LOG_ARG}}",
+            arguments = listOf(
+                navArgument(Routes.HABIT_LOG_ARG) {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                }
+            )
+        ) { backStackEntry ->
+            val raw = backStackEntry.arguments?.getString(Routes.HABIT_LOG_ARG)
+            val prefill = when (raw) {
+                "resisted" -> LogOutcome.RESISTED
+                "smoked" -> LogOutcome.SMOKED
+                else -> null
+            }
+            HabitLogScreen(
+                onClose = { navController.popBackStack() },
+                onSaved = {
+                    // After saving, return to Home and clear the SOS/HabitLog stack above Home.
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.HOME) { inclusive = false }
+                        launchSingleTop = true
+                    }
+                },
+                prefilledOutcome = prefill
             )
         }
 
