@@ -1,5 +1,7 @@
 package com.example.quitlyaifirst2screens
 
+import com.example.quitlyaifirst2screens.screens.PersonalizedResultsScreen
+import com.example.quitlyaifirst2screens.screens.ResultVariant
 import com.example.quitlyaifirst2screens.screens.HabitAssessmentScreen
 import com.example.quitlyaifirst2screens.screens.PreferenceSurveyScreen
 import android.os.Bundle
@@ -67,16 +69,24 @@ fun QuitlyApp() {
         }
 
         composable(Routes.RESULTS) {
-            PlaceholderScreen(
-                title = "Your personalized plan",
-                onBack = { navController.popBackStack() }
+            PersonalizedResultsScreen(
+                variant = ResultVariant.MAYA,
+                onStart = {
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.SPLASH) { inclusive = true }
+                    }
+                }
             )
         }
 
         composable(Routes.RESULTS_DIEGO) {
-            PlaceholderScreen(
-                title = "Your personalized plan",
-                onBack = { navController.popBackStack() }
+            PersonalizedResultsScreen(
+                variant = ResultVariant.DIEGO,
+                onStart = {
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.SPLASH) { inclusive = true }
+                    }
+                }
             )
         }
 
