@@ -1,5 +1,6 @@
 package com.example.quitlyaifirst2screens
 
+import com.example.quitlyaifirst2screens.screens.PreferenceSurveyScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -51,9 +52,9 @@ fun QuitlyApp() {
         }
 
         composable(Routes.SURVEY) {
-            PlaceholderScreen(
-                title = "Preference Survey",
-                onBack = { navController.popBackStack() }
+            PreferenceSurveyScreen(
+                onBack = { navController.popBackStack() },
+                onContinue = { navController.navigate(Routes.ASSESSMENT) }
             )
         }
 
